@@ -7,10 +7,14 @@ const Stack = createNativeStackNavigator();
 const Navigation = () => {
 
     return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name='Orders' component={OrderScreen} />
-        <Stack.Screen name='OrderDelivery' component={OrderDelivery} />
-    </Stack.Navigator>
+    
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Orders" component={OrderScreen} />
+            <Stack.Screen
+            name="OrderDelivery"
+            component={OrderDelivery}
+            />
+        </Stack.Navigator>
     );
 }
 export default Navigation;
