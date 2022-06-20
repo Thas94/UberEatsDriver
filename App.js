@@ -6,6 +6,8 @@ import Navigation from './src/components/navigation/Index';
 import { Amplify } from 'aws-amplify'
 import awsconfig from './src/aws-exports'
 import {withAuthenticator} from 'aws-amplify-react-native'
+import AuthContextProvider from './src/contexts/AuthContext'
+import OrderContextProvider from './src/contexts/OrderContext'
 
 Amplify.configure({
   ...awsconfig,
@@ -19,7 +21,11 @@ Analytics: {
 
     <NavigationContainer>
       <GestureHandlerRootView style={{flex: 1}}>
-        <Navigation />
+        <AuthContextProvider>
+          <OrderContextProvider>
+            <Navigation />
+          </OrderContextProvider>
+        </AuthContextProvider>
       </GestureHandlerRootView>
         <StatusBar style="auto" />
     </NavigationContainer>
@@ -28,4 +34,4 @@ Analytics: {
 }
 
 
-export default App;
+export default withAuthenticator(App);
