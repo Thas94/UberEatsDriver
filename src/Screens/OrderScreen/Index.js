@@ -24,7 +24,6 @@ const OrderScreen = () => {
     DataStore.query(Order, (order) => 
       order.status('eq', 'READY_FOR_PICKUP')).then(setorders);
   },[]);
-  console.log('orders', orders)
     // renders
     return (
         <View style={{backgroundColor: 'lightblue', flex: 1}}>
