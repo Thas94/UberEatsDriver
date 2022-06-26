@@ -35,15 +35,32 @@ const OrderContextProvider = ({children}) => {
         ).then(setOrder)
     }
 
-    const completeOrder = () => {
+    const completeOrder = async () => {
         //update the order, change the status and assign the driver
-        DataStore.save(
+        const updatedOrder = await DataStore.save(
             Order.copyOf(order, (updated) => {
                 updated.status = 'COMPLETED';
-                updated.Courier = dbCourier;
+                updated.Courier = dbCourier; 
             })
-        ).then(setOrder)
+        );
+        setOrder(updatedOrder);
     }
+
+    useEffect(() => {
+        if (!order) {
+          return;
+        }
+    
+        const subscription = DataStore.observe(Order, order.id).subscribe(
+          ({ opType, element }) => {
+            if (opType === "UPDATE") {
+              fetchOrder(element.id);
+            }
+          }
+        );
+    
+        return () => subscription.unsubscribe();
+      }, [order?.id]); 
 
     const pickUpOrder = () => {
         //update the order, change the status and assign the driver
