@@ -116,7 +116,7 @@ const OrderDelivery = () => {
                     restaurantLocation,
                 ] : []}
                 strokeColor='#3fc060'
-                apikey={'AIzaSyCiHCl7OdZFwm-klYKWKgbobKujtdMiMpk'}  
+                apikey={'AIzaSyCiHCl7OdZFwm-klYKWKgbobKujtdMiMpk1'}   
                 onReady={(results) => {
                     setTotalMinutes(results.duration);
                     setTotalKm(results.distance);
