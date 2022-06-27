@@ -10,8 +10,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "nam": {
-                    "name": "nam",
+                "name": {
+                    "name": "name",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -890,10 +890,11 @@ export const schema = {
                 "COOKING",
                 "READY_FOR_PICKUP",
                 "PICKED_UP",
-                "COMPLETED"
+                "COMPLETED",
+                "ACCEPTED"
             ]
         }
     },
     "nonModels": {},
-    "version": "b35dbf72de59c91643ce960773c5af4e"
+    "version": "a359e66dbb7c45996edf749515f35dba"
 };

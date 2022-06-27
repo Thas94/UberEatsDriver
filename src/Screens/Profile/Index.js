@@ -88,9 +88,6 @@ const Profile = () => {
         </Pressable>
       </View>
       <Button onPress={onSave} title="Save" />
-      <Text onPress={() => Auth.signOut()} style={{textAlign: 'center', color: 'red', margin: 10}}>
-          Sign Out
-      </Text>
     </SafeAreaView>
       );
     };

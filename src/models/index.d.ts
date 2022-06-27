@@ -11,7 +11,8 @@ export enum OrderStatus {
   COOKING = "COOKING",
   READY_FOR_PICKUP = "READY_FOR_PICKUP",
   PICKED_UP = "PICKED_UP",
-  COMPLETED = "COMPLETED"
+  COMPLETED = "COMPLETED",
+  ACCEPTED = "ACCEPTED"
 }
 
 
@@ -50,7 +51,7 @@ type UserMetaData = {
 
 export declare class Courier {
   readonly id: string;
-  readonly nam: string;
+  readonly name: string;
   readonly sub: string;
   readonly lat?: number | null;
   readonly lng?: number | null;

@@ -9,21 +9,43 @@ const AuthContextProvider = ({children}) => {
 const [authUser, setAuthUser] = useState(null);
 const [dbCourier, setDbCourier] = useState(null);
 const sub = authUser?.attributes?.sub;
+const [loading,setLoading] = useState(true);
 
 useEffect(() => {
     Auth.currentAuthenticatedUser({ bypassCache: true}).then(setAuthUser);
 },[]);
 
 useEffect(() => {
-    DataStore.query(Courier, (courier) => courier.sub('eq', sub)).then((couriers) => setDbCourier(couriers[0]))
+    if(!sub){
+        return;
+    }
+    DataStore.query(Courier, (courier) => courier.sub('eq', sub)).then((couriers) => {
+        setDbCourier(couriers[0])
+        setLoading(false)
+    }
+    );
 },[sub]);
 
+useEffect(() => {
+    if(!dbCourier){
+        return;
+    }
+    const subscription = DataStore.observe(Courier, dbCourier.id).subscribe(
+        (msg) => {
+            if(msg === 'UPDATE'){
+                setDbCourier(msg.element)
+            }
+        }
+    );
+    return () => subscription.unsubscribe();
+},[dbCourier]);
+
     return (
-    <AuthContext.Provider value={{authUser, dbCourier, sub, setDbCourier}}> 
+    <AuthContext.Provider value={{authUser, dbCourier, sub, setDbCourier, loading}}> 
         {children} 
     </AuthContext.Provider> 
     );  
-};
+}; 
 
 export default AuthContextProvider; 
 

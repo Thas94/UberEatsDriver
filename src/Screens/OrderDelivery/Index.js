@@ -9,6 +9,9 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { useOrderContext } from '../../contexts/OrderContext';
 import BottomSheetDetails from './BottomSheetDetails'
 import CustomMaker from '../../components/CustomMarker/Index';
+import { DataStore } from 'aws-amplify';
+import { Courier } from '../../models';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 const OrderDelivery = () => {
 
@@ -23,16 +26,17 @@ const OrderDelivery = () => {
     const id = route.params?.id;
 
     const {fetchOrder, order ,user} = useOrderContext(); 
+    const {dbCourier} = useAuthContext();
 
     useEffect(() => {
         fetchOrder(id);
     },[id]);
 
+
     useEffect(() => {
         (async () => {
           let { status } = await Location.requestForegroundPermissionsAsync();
           if (!status === "granted") {
-            console.log("Nonono");
             return;
           }
     
@@ -57,6 +61,18 @@ const OrderDelivery = () => {
         );
         return foregroundSubscription;
       }, []);
+
+
+      useEffect(() => {
+        if(!driverLocation){
+          return;
+        }
+        DataStore.save(Courier.copyOf(dbCourier, (updated) => {
+          updated.lat = driverLocation.latitude;
+          updated.lng = driverLocation.longitude;
+        }))
+  
+      }, [driverLocation])
 
       const zoomInOnDriver = () => {
         mapRef.current.animateToRegion({
@@ -100,7 +116,7 @@ const OrderDelivery = () => {
                     restaurantLocation,
                 ] : []}
                 strokeColor='#3fc060'
-                apikey={'AIzaSyCiHCl7OdZFwm-klYKWKgbobKujtdMiMpk1'}  
+                apikey={'AIzaSyCiHCl7OdZFwm-klYKWKgbobKujtdMiMpk'}  
                 onReady={(results) => {
                     setTotalMinutes(results.duration);
                     setTotalKm(results.distance);

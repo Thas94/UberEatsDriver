@@ -6,7 +6,7 @@ enum TransportationModes {
 
 type Courier @model @auth(rules: [{allow: public}]) {
   id: ID!
-  nam: String!
+  name: String!
   sub: String!
   lat: Float
   lng: Float
